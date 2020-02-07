@@ -62,7 +62,7 @@ start_on_boot() {
 # Provides:          pifacertc
 # Required-Start:    udev mountkernfs \$remote_fs raspi-config
 # Required-Stop:
-# Default-Start:     S
+# Default-Start:     2 3 4 5
 # Default-Stop:
 # Short-Description: Add the PiFace RTC
 # Description:       Add the PiFace RTC
@@ -81,7 +81,7 @@ case "\$1" in
     modprobe i2c:mcp7941x
     log_success_msg "Add the mcp7941x device in the sys filesystem"
     # https://www.kernel.org/doc/Documentation/i2c/instantiating-devices
-    echo mcp7941x 0x6f > /sys/class/i2c-dev/i2c-$i/device/new_device
+    echo 'mcp7941x 0x6f' | sudo tee /sys/class/i2c-dev/i2c-$i/device/new_device
     log_success_msg "Synchronise the system clock and hardware RTC"
     hwclock --hctosys
     ;;
